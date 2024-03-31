@@ -91,6 +91,8 @@ func extractAttachmentsFromMbox(from mboxPath: String, outputDirectory: String, 
                 let attachments = extractAttachments(from: message)
                 print("Found \(attachments.count) attachments in message \(index + 1).")
                 saveAttachments(attachments, to: outputDirectory)
+            usleep(100000) // Sleep for 0.1 seconds
+
             }
 
             DispatchQueue.main.async {
@@ -120,6 +122,7 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
     var attachmentFound = false
     var attachmentData = ""
     var filename = ""
+    var attachmentCounter = 1
 
     for line in lines {
         if attachmentFound {
@@ -127,6 +130,12 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
                 continue
             } else if line.starts(with: "--") {
                 if let data = decodeBase64(attachmentData) {
+                    // Generate a dynamic name if the filename is empty
+                    if filename.isEmpty {
+                        let timestamp = Int(Date().timeIntervalSince1970)
+                        filename = "UnnamedAttachment_\(timestamp)_\(attachmentCounter)"
+                        attachmentCounter += 1
+                    }
                     let attachment = EmailAttachment(filename: filename, data: data)
                     attachments.append(attachment)
                 }
@@ -140,7 +149,9 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
             attachmentFound = true
             if let contentDispositionIndex = lines.firstIndex(where: { $0.contains("Content-Disposition:") }),
                let filenameIndex = lines[contentDispositionIndex].range(of: "filename=")?.upperBound {
-                filename = lines[contentDispositionIndex][filenameIndex...].trimmingCharacters(in: .whitespacesAndNewlines)
+                filename = lines[contentDispositionIndex][filenameIndex...]
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .trimmingCharacters(in: CharacterSet(charactersIn: "\""))
             }
         }
     }
@@ -149,10 +160,22 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
 }
 
 func saveAttachments(_ attachments: [EmailAttachment], to directory: String) {
+    // Create the output directory if it doesn't exist
+    let directoryURL = URL(fileURLWithPath: directory)
+    if !FileManager.default.fileExists(atPath: directory) {
+        do {
+            try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Error creating directory: \(error)")
+            return
+        }
+    }
+
     for attachment in attachments {
-        let filePath = directory + "/" + attachment.filename
+        let filePath = directoryURL.appendingPathComponent(attachment.filename).path
         do {
             try attachment.data.write(to: URL(fileURLWithPath: filePath))
+            print("Saved attachment: \(attachment.filename)")
         } catch {
             print("Error saving attachment \(attachment.filename): \(error)")
         }

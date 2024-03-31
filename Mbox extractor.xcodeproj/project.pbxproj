@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		72AF8A172BB8A29800CBFB36 /* Mbox_extractorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AF8A162BB8A29800CBFB36 /* Mbox_extractorApp.swift */; };
 		72AF8A1B2BB8A29A00CBFB36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */; };
-		72AF8A1F2BB8A29A00CBFB36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72AF8A1E2BB8A29A00CBFB36 /* Preview Assets.xcassets */; };
 		72C948E52BB9114A00B14754 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948E42BB9114A00B14754 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -19,11 +18,7 @@
 		72AF8A182BB8A29800CBFB36 /* pasContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pasContentView.swift; sourceTree = "<group>"; };
 		72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		72AF8A1C2BB8A29A00CBFB36 /* Mbox_extractor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mbox_extractor.entitlements; sourceTree = "<group>"; };
-		72AF8A1E2BB8A29A00CBFB36 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		72C948E42BB9114A00B14754 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		72C948E62BB9125500B14754 /* EmailMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmailMessage.swift; path = "Mbox extractor/EmailMessage.swift"; sourceTree = SOURCE_ROOT; };
-		72C948E82BB9129900B14754 /* EmailAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAttachment.swift; sourceTree = "<group>"; };
-		72C948EA2BB9157300B14754 /* MboxParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MboxParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,20 +56,8 @@
 				72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */,
 				72AF8A1C2BB8A29A00CBFB36 /* Mbox_extractor.entitlements */,
 				72C948E42BB9114A00B14754 /* ContentView.swift */,
-				72C948E62BB9125500B14754 /* EmailMessage.swift */,
-				72C948EA2BB9157300B14754 /* MboxParser.swift */,
-				72C948E82BB9129900B14754 /* EmailAttachment.swift */,
-				72AF8A1D2BB8A29A00CBFB36 /* Preview Content */,
 			);
 			path = "Mbox extractor";
-			sourceTree = "<group>";
-		};
-		72AF8A1D2BB8A29A00CBFB36 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				72AF8A1E2BB8A29A00CBFB36 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +118,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72AF8A1F2BB8A29A00CBFB36 /* Preview Assets.xcassets in Resources */,
 				72AF8A1B2BB8A29A00CBFB36 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,8 +263,8 @@
 				CODE_SIGN_ENTITLEMENTS = "Mbox extractor/Mbox_extractor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Mbox extractor/Preview Content\"";
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -319,8 +301,8 @@
 				CODE_SIGN_ENTITLEMENTS = "Mbox extractor/Mbox_extractor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Mbox extractor/Preview Content\"";
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
