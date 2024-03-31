@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Mbox_extractorApp: App {
+struct MboxExtractorApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

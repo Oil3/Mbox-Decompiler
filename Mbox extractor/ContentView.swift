@@ -1,3 +1,6 @@
+//
+//  ContentView.swift
+//  Mbox extractor
 import SwiftUI
 
 struct ContentView: View {
@@ -16,7 +19,7 @@ struct ContentView: View {
                 .padding()
 
             Button("Extract Attachments") {
-                extractAttachments(from: mboxPath, outputDirectory: outputDirectory) { result in
+                extractAttachmentsFromMbox(from: mboxPath, outputDirectory: outputDirectory) { result in
                     extractionResult = result
                 }
             }
@@ -26,21 +29,13 @@ struct ContentView: View {
         }
     }
 
-    func extractAttachments(from mboxPath: String, outputDirectory: String, completion: @escaping (String) -> Void) {
+    func extractAttachmentsFromMbox(from mboxPath: String, outputDirectory: String, completion: @escaping (String) -> Void) {
         DispatchQueue.global(qos: .background).async {
             do {
-                let mboxContent = try String(contentsOfFile: mboxPath)
-                let messages = mboxContent.components(separatedBy: "\nFrom ")
-
+                let messages = parseMboxFile(mboxPath)
                 for message in messages {
-                    // Implement message parsing and attachment extraction
-                    // This is a placeholder example
-                    let base64Attachment = "BASE64_ENCODED_ATTACHMENT"
-
-                    if let data = Data(base64Encoded: base64Attachment) {
-                        let outputPath = outputDirectory + "/attachment_filename"
-                        try data.write(to: URL(fileURLWithPath: outputPath))
-                    }
+                    let attachments = extractAttachments(from: message)
+                    saveAttachments(attachments, to: outputDirectory)
                 }
                 DispatchQueue.main.async {
                     completion("Extraction complete. Check the output directory for attachments.")
@@ -54,11 +49,4 @@ struct ContentView: View {
     }
 }
 
-@main
-struct MboxExtractorApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+
