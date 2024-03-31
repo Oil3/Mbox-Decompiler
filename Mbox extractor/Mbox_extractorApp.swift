@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 @main
 struct MboxExtractorApp: App {
     var body: some Scene {

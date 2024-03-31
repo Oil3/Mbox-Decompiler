@@ -11,9 +11,6 @@
 		72AF8A1B2BB8A29A00CBFB36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */; };
 		72AF8A1F2BB8A29A00CBFB36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72AF8A1E2BB8A29A00CBFB36 /* Preview Assets.xcassets */; };
 		72C948E52BB9114A00B14754 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948E42BB9114A00B14754 /* ContentView.swift */; };
-		72C948E72BB9125500B14754 /* EmailMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948E62BB9125500B14754 /* EmailMessage.swift */; };
-		72C948E92BB9129900B14754 /* EmailAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948E82BB9129900B14754 /* EmailAttachment.swift */; };
-		72C948EB2BB9157300B14754 /* MboxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948EA2BB9157300B14754 /* MboxParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,9 +147,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72C948EB2BB9157300B14754 /* MboxParser.swift in Sources */,
-				72C948E72BB9125500B14754 /* EmailMessage.swift in Sources */,
-				72C948E92BB9129900B14754 /* EmailAttachment.swift in Sources */,
 				72C948E52BB9114A00B14754 /* ContentView.swift in Sources */,
 				72AF8A172BB8A29800CBFB36 /* Mbox_extractorApp.swift in Sources */,
 			);
@@ -196,9 +190,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -257,9 +253,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

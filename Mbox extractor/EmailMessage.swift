@@ -31,6 +31,21 @@ func parseEmailMessage(_ message: String) -> EmailMessage {
         }
     }
 
+    // Check if the message is multipart
+    if let contentType = headers["Content-Type"], contentType.contains("multipart") {
+        // Extract the boundary from the Content-Type header
+        if let boundaryIndex = contentType.range(of: "boundary=")?.upperBound {
+            let boundary = "--" + contentType[boundaryIndex...].trimmingCharacters(in: .whitespacesAndNewlines)
+
+            // Split the body into parts using the boundary
+            let parts = body.components(separatedBy: boundary)
+
+            // Combine the parts back into a single body string, separating them with newlines
+            body = parts.joined(separator: "\n")
+        }
+    }
+
     return EmailMessage(headers: headers, body: body)
 }
+
 
