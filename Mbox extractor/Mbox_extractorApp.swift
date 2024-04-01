@@ -10,7 +10,14 @@ import SwiftUI
 struct MboxExtractorApp: App {
     var body: some Scene {
         WindowGroup {
+        NavigationStack{
             ContentView()
+                                .preferredColorScheme(.dark) // Enforce dark mode
+
         }
+        .onDisappear {
+            NSApplication.shared.terminate(nil)
+            }
+            }
     }
 }

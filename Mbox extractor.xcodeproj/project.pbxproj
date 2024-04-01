@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72A243642BBA546600AF85E7 /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A243632BBA546600AF85E7 /* LogViewModel.swift */; };
 		72AF8A172BB8A29800CBFB36 /* Mbox_extractorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AF8A162BB8A29800CBFB36 /* Mbox_extractorApp.swift */; };
 		72AF8A1B2BB8A29A00CBFB36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */; };
 		72C948E52BB9114A00B14754 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C948E42BB9114A00B14754 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		72A243632BBA546600AF85E7 /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
 		72AF8A132BB8A29800CBFB36 /* Mbox extractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mbox extractor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72AF8A162BB8A29800CBFB36 /* Mbox_extractorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mbox_extractorApp.swift; sourceTree = "<group>"; };
 		72AF8A182BB8A29800CBFB36 /* pasContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pasContentView.swift; sourceTree = "<group>"; };
@@ -53,9 +55,10 @@
 			isa = PBXGroup;
 			children = (
 				72AF8A162BB8A29800CBFB36 /* Mbox_extractorApp.swift */,
+				72A243632BBA546600AF85E7 /* LogViewModel.swift */,
+				72C948E42BB9114A00B14754 /* ContentView.swift */,
 				72AF8A1A2BB8A29A00CBFB36 /* Assets.xcassets */,
 				72AF8A1C2BB8A29A00CBFB36 /* Mbox_extractor.entitlements */,
-				72C948E42BB9114A00B14754 /* ContentView.swift */,
 			);
 			path = "Mbox extractor";
 			sourceTree = "<group>";
@@ -130,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C948E52BB9114A00B14754 /* ContentView.swift in Sources */,
+				72A243642BBA546600AF85E7 /* LogViewModel.swift in Sources */,
 				72AF8A172BB8A29800CBFB36 /* Mbox_extractorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
