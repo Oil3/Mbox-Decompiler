@@ -2,6 +2,7 @@
     //  ContentView.swift
     //  Mbox extractor
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @State private var mboxPath: URL?
@@ -9,6 +10,7 @@ struct ContentView: View {
     @State private var extractionResult: String = ""
     @State private var showMboxPicker = false
     @State private var showOutputPicker = false
+    @State private var isExtracting = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -17,17 +19,23 @@ struct ContentView: View {
             }
             .fileImporter(
                 isPresented: $showMboxPicker,
-                allowedContentTypes: [.data],
+                allowedContentTypes: [.data, .directory],
                 allowsMultipleSelection: false
             ) { result in
                 switch result {
                 case .success(let urls):
-                    mboxPath = urls.first
+                    if let url = urls.first {
+                        let accessGranted = url.startAccessingSecurityScopedResource()  // sandbox related
+                        if accessGranted {
+                            mboxPath = url
+                        } else {
+                            print("Access to the file was not granted.")
+                        }
+                    }
                 case .failure(let error):
                     print("Error selecting file: \(error.localizedDescription)")
                 }
-            }
-            
+            }            
             Text(mboxPath?.path ?? "No file selected")
             
             Button("Select output directory") {
@@ -45,19 +53,24 @@ struct ContentView: View {
                     print("Error selecting directory: \(error.localizedDescription)")
                 }
             }
-            
             Text(outputDirectory?.path ?? "No directory selected")
             
             Button("Extract Attachments") {
                 if let mboxPath = mboxPath, let outputDirectory = outputDirectory {
+                    isExtracting = true
                     extractAttachmentsFromMbox(from: mboxPath.path, outputDirectory: outputDirectory.path) { result in
                         extractionResult = result
+                        isExtracting = false
                     }
                 } else {
                     extractionResult = "Please select an mbox file and an output directory."
                 }
             }
-            
+            if isExtracting {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+            }
             Text(extractionResult)
                 .padding()
         }
@@ -79,32 +92,36 @@ struct ContentView: View {
             return []
         }
     }
-func extractAttachmentsFromMbox(from mboxPath: String, outputDirectory: String, completion: @escaping (String) -> Void) {
-    DispatchQueue.global(qos: .background).async {
-        do {
-            print("Parsing mbox file...")
-            let messages = parseMboxFile(mboxPath)
-            print("Found \(messages.count) messages.")
+    func extractAttachmentsFromMbox(from mboxPath: String, outputDirectory: String, completion: @escaping (String) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                print("Parsing mbox file...")
+                let messages = parseMboxFile(mboxPath)
+                print("Found \(messages.count) messages.")
+                
+                let extractionQueue = DispatchQueue(label: "com.example.attachmentExtraction", attributes: .concurrent) //multithreading
+                let group = DispatchGroup()
 
-            for (index, message) in messages.enumerated() {
-                print("Extracting attachments from message \(index + 1)...")
-                let attachments = extractAttachments(from: message)
-                print("Found \(attachments.count) attachments in message \(index + 1).")
-                saveAttachments(attachments, to: outputDirectory)
-            usleep(100000) // Sleep for 0.1 seconds
+                for (index, message) in messages.enumerated() {
+                    group.enter()
+                    extractionQueue.async {
+                       // print("Extracting attachments from message \(index + 1)...")
+                        let attachments = extractAttachments(from: message)
+                        print("Extracting \(attachments.count) attachments in message \(index + 1).")
+                                                usleep(10000) // 0.01secs
 
+                        saveAttachments(attachments, to: outputDirectory)
+                        group.leave()//leaving multithereading
+                    
+                }
+                    group.wait()  // Wait for all tasks to complete
             }
-
-            DispatchQueue.main.async {
-                completion("Extraction complete. Check the output directory for attachments.")
-            }
-        } catch {
-            DispatchQueue.main.async {
-                completion("Error: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion("Extraction complete. Check the output directory for attachments.")
+                }
             }
         }
-    }
-}}
+    }}
 
 struct EmailAttachment {
     var filename: String
@@ -114,23 +131,23 @@ struct EmailAttachment {
 func decodeBase64(_ base64String: String) -> Data? {
     return Data(base64Encoded: base64String)
 }
-    
+
 func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
     var attachments = [EmailAttachment]()
-
+    
     let lines = message.body.components(separatedBy: .newlines)
     var attachmentFound = false
     var attachmentData = ""
     var filename = ""
     var attachmentCounter = 1
-
+    
     for line in lines {
         if attachmentFound {
             if line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 continue
             } else if line.starts(with: "--") {
                 if let data = decodeBase64(attachmentData) {
-                    // Generate a dynamic name if the filename is empty
+                        // Generates a dynamic name when no filename retrieved
                     if filename.isEmpty {
                         let timestamp = Int(Date().timeIntervalSince1970)
                         filename = "UnnamedAttachment_\(timestamp)_\(attachmentCounter)"
@@ -155,12 +172,12 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
             }
         }
     }
-
+    
     return attachments
 }
 
 func saveAttachments(_ attachments: [EmailAttachment], to directory: String) {
-    // Create the output directory if it doesn't exist
+        // Create the output directory if it doesn't exist
     let directoryURL = URL(fileURLWithPath: directory)
     if !FileManager.default.fileExists(atPath: directory) {
         do {
@@ -170,7 +187,7 @@ func saveAttachments(_ attachments: [EmailAttachment], to directory: String) {
             return
         }
     }
-
+    
     for attachment in attachments {
         let filePath = directoryURL.appendingPathComponent(attachment.filename).path
         do {
@@ -212,6 +229,6 @@ func parseEmailMessage(_ message: String) -> EmailMessage {
         
     }
     
-            return EmailMessage(headers: headers, body: body)
-
+    return EmailMessage(headers: headers, body: body)
+    
 }
