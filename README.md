@@ -14,7 +14,7 @@ Built with Swift and designed for sandboxed environments.
 - 📤 Extract attachments from mbox files
 - 🔀 Multithreading for efficient extraction
 - 📎 Save attachments to a specified directory
-- 🛅 Built for sandboxed macOS environments
+- 🛅 Sandboxed, hardened, notarized macOS app
 - 💻 Native macOS app with SwiftUI
 
 ### Installation
