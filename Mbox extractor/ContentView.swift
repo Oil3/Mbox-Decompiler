@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var showOutputPicker = false
     @State private var isExtracting = false
     @StateObject private var logViewModel = LogViewModel()
+    @State  var attachmentCounter = 0
+
 
     var body: some View {
         VStack(spacing: 20) {
@@ -90,16 +92,16 @@ struct ContentView: View {
             .background(Color.black.opacity(0.1))
             .cornerRadius(5)
         }
-        .onAppear {
-            redirectStandardOutput(to: logViewModel)
-        }
-    }
-
-    func redirectStandardOutput(to stream: TextOutputStream) {
-        let outputStream = TextOutputStreamWrapper(stream: stream)
-        freopen("/dev/null", "w", stderr)
-        dup2(outputStream.fileDescriptor, STDERR_FILENO)
-    }
+//        .onAppear {
+//            redirectStandardOutput(to: logViewModel)
+//        }
+//    
+//
+//    func redirectStandardOutput(to stream: TextOutputStream) {
+//        let outputStream = TextOutputStreamWrapper(stream: stream)
+//        freopen("/dev/null", "w", stderr)
+//        dup2(outputStream.fileDescriptor, STDERR_FILENO)
+//    }
 }
 
 private class TextOutputStreamWrapper: TextOutputStream {
@@ -126,13 +128,7 @@ class LogViewModel: ObservableObject {
     }
 }
 
-extension LogViewModel: TextOutputStream {
-    func write(_ string: String) {
-        DispatchQueue.main.async {
-            self.logMessages.append(string)
-        }
-    }
-}
+
 class LogStream: TextOutputStream {
     var logViewModel: LogViewModel
     
@@ -199,20 +195,16 @@ func extractAttachmentsFromMbox(from mboxPath: String, outputDirectory: String, 
                 extractionQueue.async {
                     let attachments = extractAttachments(from: message)
                     print("Extracting \(attachments.count) attachments from message \(index + 1).")
-                                        usleep(100000)
-
+                                       // usleep(50000)
                     saveAttachments(attachments, to: outputDirectory)
-
                     group.leave()
-                                                            usleep(100000)
-
                 }
             }
             
             group.wait()  // Wait for all tasks to complete
             
             DispatchQueue.main.async {
-                completion("Extraction complete. Check the output directory for attachments.")
+                completion("Extraction complete.")
             }
         }
     }
@@ -243,8 +235,8 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
     var attachmentFound = false
     var attachmentData = ""
     var filename = ""
-    var attachmentCounter = 0
-    
+   // var attachmentCounter = 0
+        
     for line in lines {
         if attachmentFound {
             if line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -253,16 +245,17 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
                 if let data = Data(base64Encoded: attachmentData) {
                     // Generates a dynamic name when no filename retrieved
                     if filename.isEmpty {
-                        let timestamp = Int(Date().timeIntervalSince1970)
-                        filename = "UnnamedAttachment_\(timestamp)_\(attachmentCounter)"
+                        filename = "file\(attachmentCounter)"
                         attachmentCounter += 1
                     }
                     let attachment = EmailAttachment(filename: filename, data: data)
                     attachments.append(attachment)
+
                 }
                 attachmentFound = false
                 attachmentData = ""
                 filename = ""
+
             } else {
                 attachmentData += line
             }
@@ -272,7 +265,7 @@ func extractAttachments(from message: EmailMessage) -> [EmailAttachment] {
                let filenameIndex = lines[contentDispositionIndex].range(of: "filename=")?.upperBound {
                 filename = String(lines[contentDispositionIndex][filenameIndex...])
                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                    //.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+                    .trimmingCharacters(in: CharacterSet(charactersIn: "\""))
             }
         }
     }
@@ -300,8 +293,17 @@ func saveAttachments(_ attachments: [EmailAttachment], to directory: String) {
         } catch {
             print("Error saving attachment \(attachment.filename): \(error)")
         }
+        
     }
 }
 func decodeBase64(_ base64String: String) -> Data? {
     return Data(base64Encoded: base64String)
 }
+}
+//extension LogViewModel: TextOutputStream {
+//    func write(_ string: String) {
+//        DispatchQueue.main.async {
+//            self.logMessages.append(string)
+//        }
+//    }
+//}
