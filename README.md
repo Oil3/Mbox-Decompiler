@@ -1,4 +1,4 @@
-# Mbox Attachment Extractor
+# Mbox Decompiler - macOS app
 
 ![Swift](https://img.shields.io/badge/Swift-5.3-orange.svg)
 ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)
