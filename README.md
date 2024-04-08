@@ -4,22 +4,23 @@
 ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
-A simple and efficient macOS application to extract attachments from mbox files.
+Mbox-Decompiler is a free macOS application to extract attachments from mbox files.
 Built with Swift and designed for sandboxed environments.
-#### Download from _releases_  
+#### Download from [_releases_](https://github.com/Oil3/Mbox-Decompiler/releases)  
 
 
 ### Features
 
 - 📤 Extract attachments from mbox files
-- 🔀 Multithreading for efficient extraction
-- 📎 Save attachments to a specified directory
+- 🔀 Multithreading for speed
+- 📎 Save every attachments to a specific directory
 - 🛅 Sandboxed, hardened, notarized macOS app
 - 💻 Native macOS app with SwiftUI
 
 ### Installation
 
-Download from _releases_  
+Download from [_releases_](https://github.com/Oil3/Mbox-Decompiler/releases)  
+App is notarized/signed and Gatekeeper friendly.
 
 ### Straightforwad Usage
 
@@ -30,5 +31,5 @@ Download from _releases_
 
 ### Why this app?   
 
-- Had to sum up 365 amounts, a significant of I had to get from excel emails attachment.
+- Had to sum up 365 amounts, and for a significant quantity of I had to retrieve from  emails.
 - Used Google Takeout to receive an archive of those emails, and the ".mbox" format, which is quite a format, wasn't expected.
