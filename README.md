@@ -2,7 +2,6 @@
   <img src="https://github.com/Oil3/Mbox-Decompiler/assets/22565084/77abfb2f-e1cc-4eff-ae65-556dac3f5aa0" height="128">
   <h1 align="center">Mbox Decompiler</h1>
 </p>
-![Uploading image.png…]()
 
 
 
