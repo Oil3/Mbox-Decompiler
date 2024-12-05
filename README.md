@@ -7,7 +7,6 @@
 
 ![Swift](https://img.shields.io/badge/Swift-5.3-orange.svg)
 ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 Mbox-Decompiler is a free macOS application to extract attachments from mbox and eml files.
 Built with Swift and designed for sandboxed environments.
