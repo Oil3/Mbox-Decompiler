@@ -13,7 +13,7 @@ Built with Swift and designed for sandboxed environments.
 #### Download from [_releases_](https://github.com/Oil3/Mbox-Decompiler/releases)  
 
 
-- 📤 Made to extract attachments from mbox files, and also supports eml files.
+- 📤 Made to extract excel attachments from .mbox files, and also supports .eml files. If you need more, just ask.
 - 🔀 Does not try to run your file, rather it reads it and extracts the emmbedded files it finds.
 - 📎 Save every attachments to a specific directory
 - 🛅 Sandboxed, hardened, notarized macOS app
